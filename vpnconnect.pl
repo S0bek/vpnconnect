@@ -2,6 +2,7 @@
 # Script de connexion au serveur VPN TigerVPN le plus rapide teste parmi une liste de fichiers ovpn.
 
 use strict;
+use Carp;
 use sigtrap qw/handler signal_handler normal-signals/;
 use lib "/home/DeMeuSX/Documents/Scripts/Perl/libs";
 use VPNConnect; # the VPNConnect.pm file class is located in the previous folder
@@ -9,12 +10,13 @@ use VPNConnect; # the VPNConnect.pm file class is located in the previous folder
 my $waitconn = 10;
 my $server = undef;
 my $tun = undef;
+my $config = shift || 'ch24.nordvpn.com.tcp.ovpn'; # We can now choose manually the config file
 
 #my $vpn = VPNConnect->new("/home/DeMeuSX/Documents/VPN/config", 1);
 my $vpn = VPNConnect->new("/home/DeMeuSX/Documents/VPN/config");
 #die "Impossible de se connecter au serveur vpn\n" unless ($vpn->connect());
 #die "Impossible de se connecter au serveur vpn\n" unless ($vpn->connect("ch24.nordvpn.com.tcp.ovpn", 1));
-die "Impossible de se connecter au serveur vpn\n" unless ($vpn->connect("ch24.nordvpn.com.tcp.ovpn", 1));
+die "Impossible de se connecter au serveur vpn\n" unless ($vpn->connect($config, 1));
 
 $server = $vpn->getservername();
 
